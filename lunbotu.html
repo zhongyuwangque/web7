@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="sucai6-master/tupian.css">
+	<script src="sucai6-master/js/animate.js"></script>
+</head>
+<body>
+	<div class="bbox" id="bbox">
+	<div class="nextbox" id="nextbox">	
+		<img class="img" src="sucai6-master/images/a15.png" alt="">
+		<div class="wenzi" id="wenzi">
+		<div class="wen" id="wen"><p>[温馨提示]最近有不少不法分子在网上骗人，请大家注意！！！</p></div>
+		</div>
+	</div>
+    </div>
+	<div class="box" id="box">
+		<div class="slider" id="slider">
+			<div class="slide"><img src="sucai6-master/images/b5.png" alt=""></div>
+			<div class="slide"><img src="sucai6-master/images/b1.png" alt=""></div>
+			<div class="slide"><img src="sucai6-master/images/b2.png" alt=""></div>
+			<div class="slide"><img src="sucai6-master/images/b3.png" alt=""></div>
+			<div class="slide"><img src="sucai6-master/images/b4.png" alt=""></div>
+			<div class="slide"><img src="sucai6-master/images/b5.png" alt=""></div>
+			<div class="slide"><img src="sucai6-master/images/b1.png" alt=""></div>
+		</div>
+		<span id="left"><</span>
+		<span id="right">></span>
+		<ul class="nav" id="nav">
+			<li class="active">1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+		</ul>
+	</div>
+	<script>
+		var wen=document.getElementById('wen');
+		var box=document.getElementById('box');
+		var oNavlist=document.getElementById('nav').children;
+		var slider=document.getElementById('slider');
+		var left=document.getElementById('left');
+		var right=document.getElementById('right');
+		var i=1;
+		var h=1;
+		var timer;
+		var isMoving=false;
+		setInterval(function(){
+			var now=parseInt(getStyle(wen,"left"));
+			if(now==0){
+				wen.style.left='950px';
+			}
+			else{
+				wen.style.left=now-1+"px";
+			}
+		},30);
+		function next(){
+			if(isMoving){
+				return;
+			}
+			isMoving=true;
+			i++;
+			navChange();
+			animate(slider,{left:-1200*i},function(){
+				if(i>5){
+					slider.style.left="-1200px";
+					i=1;
+				}
+				isMoving=false;
+			});
+		}
+		function prev(){
+			if(isMoving){
+				return;
+			}
+			isMoving=true;
+			i--;
+			navChange();
+			animate(slider,{left:-1200*i},function(){
+				if(i==0){
+					slider.style.left="-6000px";
+					i=5;
+				}
+				isMoving=false;
+			});
+		}
+		var timer = setInterval(next,3000);
+		box.onmouseover=function(){
+			animate(left,{opacity:50});
+			animate(right,{opacity:50});
+			clearInterval(timer);
+		}
+		box.onmouseout=function(){
+			animate(left,{opacity:0});
+			animate(right,{opacity:0});
+			timer=setInterval(next,3000);
+		}
+		right.onclick=next;
+		left.onclick=prev;
+		
+		for(var j=0;j<oNavlist.length;j++){
+			oNavlist[j].idx=j;
+			oNavlist[j].onclick=function(){
+				i=this.idx+1;
+				navChange();
+				animate(slider,{left:-1200*i});
+			}
+		}
+		function navChange(){
+			for(var j=0;j<oNavlist.length;j++){
+				oNavlist[j].className='';
+			}
+			if(i>5){ 
+				oNavlist[0].className='active';
+			}else if(i==0){
+				oNavlist[4].className='active';
+			}else{
+				oNavlist[i-1].className='active';
+			}
+		}
+
+	</script>
+</body>
+</html>
