@@ -104,4 +104,5 @@ ul,li{
 }
 .nav .active{
 	background:red;
+	color:#fff;
 }
